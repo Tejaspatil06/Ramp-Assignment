@@ -36,7 +36,11 @@ export function App() {
     async (employeeId: string) => {
       setIsLoadingTransactions(true)
       paginatedTransactionsUtils.invalidateData()
-      await transactionsByEmployeeUtils.fetchById(employeeId)
+      if (employeeId === EMPTY_EMPLOYEE.id) {
+        await paginatedTransactionsUtils.fetchAll()
+      } else {
+        await transactionsByEmployeeUtils.fetchById(employeeId)
+      }
       setIsLoadingTransactions(false)
     },
     [paginatedTransactionsUtils, transactionsByEmployeeUtils]
